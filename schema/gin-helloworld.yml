@@ -1,0 +1,62 @@
+openapi: '3.0.2'
+info:
+  title: gin-helloworld
+  version: '1.0'
+servers:
+  - url: http://localhost:8080/api
+paths:
+  /login:
+    post:
+      tags: ['login']
+      description: ログインAPI
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/login_request'
+        required: true
+      responses: 
+        '200':
+          description: OK
+  /user_info:
+    get:
+      tags: ['users']
+      description: セッション上のユーザー情報取得API
+      parameters:
+        - name: token
+          in: query
+          description: Bearerトークン
+          required: true
+          schema: 
+            type: string
+            example: "Bearer: XXXX"
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/user_info'
+
+
+
+components:
+  schemas:
+    login_request: 
+      type: object
+      properties:
+        login_id:
+          type: string
+        password:
+          type: string
+          format: password
+    user_info:
+      type: object
+      properties:
+        name: 
+          type: string
+          example: サンプル太郎
+        age: 
+          type: number
+          example: 20
