@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: gin-helloworld-db
+    build:
+      context: db
+    volumes:
+      - ./db/mysql/data:/var/lib/mysql/
+    environment:
+      MYSQL_DATABASE: gin-helloworld
+      MYSQL_ROOT_PASSWORD: root
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    ports:
+      - 3306:3306
