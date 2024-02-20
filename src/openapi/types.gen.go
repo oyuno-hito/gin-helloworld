@@ -11,14 +11,17 @@ type LoginRequest struct {
 
 // UserInfo defines model for user_info.
 type UserInfo struct {
-	Age  *float32 `json:"age,omitempty"`
-	Name *string  `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Role *string `json:"role,omitempty"`
 }
 
 // GetUserInfoParams defines parameters for GetUserInfo.
 type GetUserInfoParams struct {
 	// Token Bearerトークン
 	Token string `form:"token" json:"token"`
+
+	// Id セッションの実装が完了するまでの一時的なパラメータ(非推奨)
+	Id *int `form:"id,omitempty" json:"id,omitempty"`
 }
 
 // PostLoginJSONRequestBody defines body for PostLogin for application/json ContentType.
