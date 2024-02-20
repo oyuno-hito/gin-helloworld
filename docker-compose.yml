@@ -1,6 +1,28 @@
 version: '3.8'
 
+x-template: &flyway-template
+  image: flyway/flyway:6.0.1
+  volumes:
+    - ./db/migrations:/flyway/sql
+    - ./db/flyway_conf:/flyway/conf
+
 services:
+  flyway-clean:
+    <<: *flyway-template
+    command: clean
+
+  flyway-migrate:
+    <<: *flyway-template
+    command: migrate
+
+  flyway-info:
+    <<: *flyway-template
+    command: info
+
+  flyway-repair:
+    <<: *flyway-template
+    command: repair
+
   db:
     container_name: gin-helloworld-db
     build:
