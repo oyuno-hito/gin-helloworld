@@ -1,0 +1,37 @@
+version: '3.8'
+
+x-template: &flyway-template
+  image: flyway/flyway:6.0.1
+  volumes:
+    - ./db/migrations:/flyway/sql
+    - ./db/flyway_conf:/flyway/conf
+
+services:
+  flyway-clean:
+    <<: *flyway-template
+    command: clean
+
+  flyway-migrate:
+    <<: *flyway-template
+    command: migrate
+
+  flyway-info:
+    <<: *flyway-template
+    command: info
+
+  flyway-repair:
+    <<: *flyway-template
+    command: repair
+
+  db:
+    container_name: gin-helloworld-db
+    build:
+      context: db
+    volumes:
+      - ./db/mysql/data:/var/lib/mysql/
+    environment:
+      MYSQL_DATABASE: gin-helloworld
+      MYSQL_ROOT_PASSWORD: root
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    ports:
+      - 3306:3306
