@@ -11,7 +11,7 @@ import (
 
 type UserController struct{}
 
-func (uc UserController) GET(c *gin.Context, params openapi.GetUserInfoParams) {
+func (uc UserController) GET(c *gin.Context) {
 	session := sessions.Default(c)
 	id := session.Get("id")
 	model, err := usecase.GetUserInfoUseCase(id.(int))

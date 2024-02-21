@@ -4,11 +4,7 @@
 package openapi
 
 import (
-	"fmt"
-	"net/http"
-
 	"github.com/gin-gonic/gin"
-	"github.com/oapi-codegen/runtime"
 )
 
 // ServerInterface represents all server handlers.
@@ -18,7 +14,7 @@ type ServerInterface interface {
 	PostLogin(c *gin.Context)
 
 	// (GET /user_info)
-	GetUserInfo(c *gin.Context, params GetUserInfoParams)
+	GetUserInfo(c *gin.Context)
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -46,21 +42,6 @@ func (siw *ServerInterfaceWrapper) PostLogin(c *gin.Context) {
 // GetUserInfo operation middleware
 func (siw *ServerInterfaceWrapper) GetUserInfo(c *gin.Context) {
 
-	var err error
-
-	c.Set(BearerAuthScopes, []string{})
-
-	// Parameter object where we will unmarshal all parameters from the context
-	var params GetUserInfoParams
-
-	// ------------- Optional query parameter "id" -------------
-
-	err = runtime.BindQueryParameter("form", true, false, "id", c.Request.URL.Query(), &params.Id)
-	if err != nil {
-		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
-		return
-	}
-
 	for _, middleware := range siw.HandlerMiddlewares {
 		middleware(c)
 		if c.IsAborted() {
@@ -68,7 +49,7 @@ func (siw *ServerInterfaceWrapper) GetUserInfo(c *gin.Context) {
 		}
 	}
 
-	siw.Handler.GetUserInfo(c, params)
+	siw.Handler.GetUserInfo(c)
 }
 
 // GinServerOptions provides options for the Gin server.

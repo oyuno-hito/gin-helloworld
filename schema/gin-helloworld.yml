@@ -22,16 +22,6 @@ paths:
     get:
       tags: ['users']
       description: セッション上のユーザー情報取得API
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: query
-          description: セッションの実装が完了するまでの一時的なパラメータ(非推奨)
-          deprecated: true
-          schema: 
-            type: integer
-
       responses:
         '200':
           description: OK

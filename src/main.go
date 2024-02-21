@@ -18,9 +18,9 @@ type Server struct {
 }
 
 // GetUserInfo implements openapi.ServerInterface.
-func (Server) GetUserInfo(c *gin.Context, params openapi.GetUserInfoParams) {
+func (Server) GetUserInfo(c *gin.Context) {
 	userController := controller.UserController{}
-	userController.GET(c, params)
+	userController.GET(c)
 }
 
 // PostLogin implements openapi.ServerInterface.
