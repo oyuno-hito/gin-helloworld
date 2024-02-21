@@ -3,7 +3,10 @@ package main
 import (
 	"flag"
 
+	"github.com/gin-contrib/sessions"
+	gormsessions "github.com/gin-contrib/sessions/gorm"
 	"github.com/gin-gonic/gin"
+	"github.com/oyuno-hito/gin-helloworld/src/database"
 	"github.com/oyuno-hito/gin-helloworld/src/openapi"
 	"github.com/oyuno-hito/gin-helloworld/src/presentation/controller"
 )
@@ -15,15 +18,20 @@ type Server struct {
 }
 
 // GetUserInfo implements openapi.ServerInterface.
-func (Server) GetUserInfo(c *gin.Context, params openapi.GetUserInfoParams) {
+func (Server) GetUserInfo(c *gin.Context) {
 	userController := controller.UserController{}
-	userController.GET(c, params)
+	userController.GET(c)
 }
 
 // PostLogin implements openapi.ServerInterface.
 func (Server) PostLogin(c *gin.Context) {
 	postController := controller.LoginController{}
 	postController.POST(c)
+}
+
+func (Server) PostLogout(c *gin.Context) {
+	logoutController := controller.LogoutController{}
+	logoutController.POST(c)
 }
 
 func NewServerInterface() *Server {
@@ -38,6 +46,11 @@ func main() {
 	r := gin.Default()
 	s := Server{}
 	options := openapi.GinServerOptions{BaseURL: "api"}
+
+	db := database.NewDb()
+	store := gormsessions.NewStore(db, true, []byte("secret"))
+	r.Use(sessions.Sessions("session", store))
+
 	openapi.RegisterHandlersWithOptions(r, s, options)
 
 	r.Run(":8080")

@@ -18,25 +18,17 @@ paths:
       responses: 
         '200':
           description: OK
+  /logout:
+    post:
+      tags: ['logout']
+      description: ログアウトAPI
+      responses:
+        '200':
+          description: OK
   /user_info:
     get:
       tags: ['users']
       description: セッション上のユーザー情報取得API
-      parameters:
-        - name: token
-          in: query
-          description: Bearerトークン
-          required: true
-          schema: 
-            type: string
-            example: "Bearer: XXXX"
-        - name: id
-          in: query
-          description: セッションの実装が完了するまでの一時的なパラメータ(非推奨)
-          deprecated: true
-          schema: 
-            type: integer
-
       responses:
         '200':
           description: OK
@@ -57,6 +49,9 @@ components:
         password:
           type: string
           format: password
+      required:
+        - "login_id"
+        - "password"
     user_info:
       type: object
       properties:
@@ -66,3 +61,7 @@ components:
         role: 
           type: string
           example: ユーザー
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

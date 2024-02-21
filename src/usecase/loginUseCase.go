@@ -7,11 +7,10 @@ import (
 	"github.com/oyuno-hito/gin-helloworld/src/repository"
 )
 
-func GetUserInfoUseCase(id int) (*repository.UserRole, error) {
+func LoginUseCase(loginId string, password string) *int {
 	db := database.NewDb()
 	userRepository := repository.UserRepositoryImpl{}
-	dto, repositoryErr := userRepository.FindById(db, id)
+	id, repositoryErr := userRepository.FindByLoginInfo(db, loginId, password)
 	fmt.Println("repositoryErr: ", repositoryErr)
-	// TODO: domainモデルの定義
-	return dto, repositoryErr
+	return id
 }
