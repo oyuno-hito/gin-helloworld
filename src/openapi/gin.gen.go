@@ -48,23 +48,10 @@ func (siw *ServerInterfaceWrapper) GetUserInfo(c *gin.Context) {
 
 	var err error
 
+	c.Set(BearerAuthScopes, []string{})
+
 	// Parameter object where we will unmarshal all parameters from the context
 	var params GetUserInfoParams
-
-	// ------------- Required query parameter "token" -------------
-
-	if paramValue := c.Query("token"); paramValue != "" {
-
-	} else {
-		siw.ErrorHandler(c, fmt.Errorf("Query argument token is required, but not found"), http.StatusBadRequest)
-		return
-	}
-
-	err = runtime.BindQueryParameter("form", true, true, "token", c.Request.URL.Query(), &params.Token)
-	if err != nil {
-		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter token: %w", err), http.StatusBadRequest)
-		return
-	}
 
 	// ------------- Optional query parameter "id" -------------
 

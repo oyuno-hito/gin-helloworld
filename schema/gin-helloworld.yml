@@ -22,14 +22,9 @@ paths:
     get:
       tags: ['users']
       description: セッション上のユーザー情報取得API
+      security:
+        - bearerAuth: []
       parameters:
-        - name: token
-          in: query
-          description: Bearerトークン
-          required: true
-          schema: 
-            type: string
-            example: "Bearer: XXXX"
         - name: id
           in: query
           description: セッションの実装が完了するまでの一時的なパラメータ(非推奨)
@@ -66,3 +61,7 @@ components:
         role: 
           type: string
           example: ユーザー
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
