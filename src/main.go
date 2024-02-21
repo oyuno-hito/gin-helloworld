@@ -29,6 +29,11 @@ func (Server) PostLogin(c *gin.Context) {
 	postController.POST(c)
 }
 
+func (Server) PostLogout(c *gin.Context) {
+	logoutController := controller.LogoutController{}
+	logoutController.POST(c)
+}
+
 func NewServerInterface() *Server {
 	return &Server{
 		UserInfo: 2,

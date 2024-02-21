@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
@@ -14,6 +15,9 @@ type UserController struct{}
 func (uc UserController) GET(c *gin.Context) {
 	session := sessions.Default(c)
 	id := session.Get("id")
+	if id == nil {
+		c.IndentedJSON(http.StatusBadRequest, errors.New("ログインしてください"))
+	}
 	model, err := usecase.GetUserInfoUseCase(id.(int))
 	if err != nil {
 		c.IndentedJSON(http.StatusBadRequest, err)

@@ -13,6 +13,9 @@ type ServerInterface interface {
 	// (POST /login)
 	PostLogin(c *gin.Context)
 
+	// (POST /logout)
+	PostLogout(c *gin.Context)
+
 	// (GET /user_info)
 	GetUserInfo(c *gin.Context)
 }
@@ -37,6 +40,19 @@ func (siw *ServerInterfaceWrapper) PostLogin(c *gin.Context) {
 	}
 
 	siw.Handler.PostLogin(c)
+}
+
+// PostLogout operation middleware
+func (siw *ServerInterfaceWrapper) PostLogout(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostLogout(c)
 }
 
 // GetUserInfo operation middleware
@@ -80,5 +96,6 @@ func RegisterHandlersWithOptions(router gin.IRouter, si ServerInterface, options
 	}
 
 	router.POST(options.BaseURL+"/login", wrapper.PostLogin)
+	router.POST(options.BaseURL+"/logout", wrapper.PostLogout)
 	router.GET(options.BaseURL+"/user_info", wrapper.GetUserInfo)
 }

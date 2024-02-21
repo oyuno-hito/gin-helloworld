@@ -18,6 +18,13 @@ paths:
       responses: 
         '200':
           description: OK
+  /logout:
+    post:
+      tags: ['logout']
+      description: ログアウトAPI
+      responses:
+        '200':
+          description: OK
   /user_info:
     get:
       tags: ['users']
