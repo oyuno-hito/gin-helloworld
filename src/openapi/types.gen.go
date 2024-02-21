@@ -9,8 +9,8 @@ const (
 
 // LoginRequest defines model for login_request.
 type LoginRequest struct {
-	LoginId  *string `json:"login_id,omitempty"`
-	Password *string `json:"password,omitempty"`
+	LoginId  string `json:"login_id"`
+	Password string `json:"password"`
 }
 
 // UserInfo defines model for user_info.
