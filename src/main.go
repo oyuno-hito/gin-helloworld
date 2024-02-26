@@ -11,11 +11,7 @@ import (
 	"github.com/oyuno-hito/gin-helloworld/src/presentation/controller"
 )
 
-// type Server struct{}
-
-type Server struct {
-	UserInfo int64
-}
+type Server struct{}
 
 // GetUserInfo implements openapi.ServerInterface.
 func (Server) GetUserInfo(c *gin.Context) {
@@ -32,12 +28,6 @@ func (Server) PostLogin(c *gin.Context) {
 func (Server) PostLogout(c *gin.Context) {
 	logoutController := controller.LogoutController{}
 	logoutController.POST(c)
-}
-
-func NewServerInterface() *Server {
-	return &Server{
-		UserInfo: 2,
-	}
 }
 
 func main() {
