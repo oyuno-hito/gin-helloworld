@@ -3,14 +3,22 @@ package usecase
 import (
 	"fmt"
 
-	"github.com/oyuno-hito/gin-helloworld/src/database"
 	"github.com/oyuno-hito/gin-helloworld/src/repository"
+	"github.com/oyuno-hito/gin-helloworld/src/usecase/model"
 )
 
-func LoginUseCase(loginId string, password string) *int {
-	db := database.NewDb()
-	userRepository := repository.UserRepositoryImpl{}
-	id, repositoryErr := userRepository.FindByLoginInfo(db, loginId, password)
+type Login struct {
+	userRepository repository.UserRepository
+}
+
+func NewLogin(userRepository repository.UserRepository) Login {
+	return Login{
+		userRepository: userRepository,
+	}
+}
+
+func (login Login) LoginUseCase(loginUser model.LoginUser) *int {
+	id, repositoryErr := login.userRepository.FindByLoginInfo(loginUser.LoginId, loginUser.Password)
 	fmt.Println("repositoryErr: ", repositoryErr)
 	return id
 }
