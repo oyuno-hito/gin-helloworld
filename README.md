@@ -9,6 +9,15 @@ https://github.com/oyuno-hito/gin-helloworld/issues/1 で設定済み
 
 ００env系を利用したバージョン指定はhttps://github.com/oyuno-hito/gin-helloworld/issues/2 で対応する(優先度低)
 
+# 実行手順
+goのコンパイル全然わかっていない
+## 実行
+cd src
+go run .
+
+## ビルド
+cd src
+go build -o ../build/artifact
 
 # やること検討リスト
 - Dockerでの起動
