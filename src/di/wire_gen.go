@@ -11,6 +11,7 @@ import (
 	"github.com/oyuno-hito/gin-helloworld/src/presentation/controller"
 	"github.com/oyuno-hito/gin-helloworld/src/repository"
 	"github.com/oyuno-hito/gin-helloworld/src/server"
+	"github.com/oyuno-hito/gin-helloworld/src/service"
 	"github.com/oyuno-hito/gin-helloworld/src/usecase"
 	"gorm.io/gorm"
 )
@@ -19,7 +20,8 @@ import (
 
 func InitializeServer(db *gorm.DB) *ServerSet {
 	userRepository := repository.NewUserRepository(db)
-	userInfoUseCase := usecase.NewUserInfoUseCase(userRepository)
+	userInfoService := service.NewUserInfoService(userRepository)
+	userInfoUseCase := usecase.NewUserInfoUseCase(userInfoService)
 	userController := controller.NewUserController(userInfoUseCase)
 	login := usecase.NewLogin(userRepository)
 	loginController := controller.NewLoginController(login)
@@ -34,6 +36,8 @@ func InitializeServer(db *gorm.DB) *ServerSet {
 // wire.go:
 
 var repositorySet = wire.NewSet(repository.NewUserRepository)
+
+var serviceSet = wire.NewSet(service.NewUserInfoService)
 
 var usecaseSet = wire.NewSet(usecase.NewUserInfoUseCase, usecase.NewLogin)
 

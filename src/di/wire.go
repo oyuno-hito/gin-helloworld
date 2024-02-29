@@ -8,12 +8,17 @@ import (
 	"github.com/oyuno-hito/gin-helloworld/src/presentation/controller"
 	"github.com/oyuno-hito/gin-helloworld/src/repository"
 	"github.com/oyuno-hito/gin-helloworld/src/server"
+	"github.com/oyuno-hito/gin-helloworld/src/service"
 	"github.com/oyuno-hito/gin-helloworld/src/usecase"
 	"gorm.io/gorm"
 )
 
 var repositorySet = wire.NewSet(
 	repository.NewUserRepository,
+)
+
+var serviceSet = wire.NewSet(
+	service.NewUserInfoService,
 )
 
 var usecaseSet = wire.NewSet(
@@ -39,6 +44,7 @@ func InitializeServer(db *gorm.DB) *ServerSet {
 	wire.Build(
 		serverSet,
 		controllerSet,
+		serviceSet,
 		usecaseSet,
 		repositorySet,
 		wire.Struct(new(ServerSet), "*"),

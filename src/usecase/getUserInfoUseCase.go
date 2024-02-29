@@ -2,22 +2,23 @@ package usecase
 
 import (
 	"fmt"
+	"github.com/oyuno-hito/gin-helloworld/src/service"
 
 	"github.com/oyuno-hito/gin-helloworld/src/repository"
 )
 
 type UserInfoUseCase struct {
-	userRepository repository.UserRepository
+	userInfoService service.UserInfoService
 }
 
-func NewUserInfoUseCase(userRepository repository.UserRepository) UserInfoUseCase {
+func NewUserInfoUseCase(userInfoService service.UserInfoService) UserInfoUseCase {
 	return UserInfoUseCase{
-		userRepository: userRepository,
+		userInfoService: userInfoService,
 	}
 }
 
 func (uc UserInfoUseCase) GetUserInfoUseCase(id int) (*repository.UserRole, error) {
-	dto, repositoryErr := uc.userRepository.FindById(id)
+	dto, repositoryErr := uc.userInfoService.GetAndValidate(id)
 	fmt.Println("repositoryErr: ", repositoryErr)
 	// TODO: domainモデルの定義
 	return dto, repositoryErr
