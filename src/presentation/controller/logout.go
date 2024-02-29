@@ -9,6 +9,10 @@ import (
 
 type LogoutController struct{}
 
+func NewLogoutController() LogoutController {
+	return LogoutController{}
+}
+
 func (lc LogoutController) POST(c *gin.Context) {
 	session := sessions.Default(c)
 	fmt.Println(session)

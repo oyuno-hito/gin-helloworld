@@ -7,9 +7,18 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/oyuno-hito/gin-helloworld/src/openapi"
 	"github.com/oyuno-hito/gin-helloworld/src/usecase"
+	"github.com/oyuno-hito/gin-helloworld/src/usecase/model"
 )
 
-type LoginController struct{}
+type LoginController struct {
+	loginUseCase usecase.Login
+}
+
+func NewLoginController(loginUseCase usecase.Login) LoginController {
+	return LoginController{
+		loginUseCase: loginUseCase,
+	}
+}
 
 func (lc LoginController) POST(c *gin.Context) {
 	var request openapi.LoginRequest
@@ -20,7 +29,12 @@ func (lc LoginController) POST(c *gin.Context) {
 		return
 	}
 	session := sessions.Default(c)
-	id := usecase.LoginUseCase(request.LoginId, request.Password)
+	loginUser := model.LoginUser{
+		LoginId:  request.LoginId,
+		Password: request.Password,
+	}
+	// TODO: 命名の重複が気になる。login.usecaseとかがワンチャンあるかもしれない
+	id := lc.loginUseCase.LoginUseCase(loginUser)
 	session.Set("id", id)
 	session.Save()
 	// TODO セッションIDを返す

@@ -10,7 +10,15 @@ import (
 	"github.com/oyuno-hito/gin-helloworld/src/usecase"
 )
 
-type UserController struct{}
+type UserController struct {
+	userInfoUseCase usecase.UserInfoUseCase
+}
+
+func NewUserController(userInfoUseCase usecase.UserInfoUseCase) UserController {
+	return UserController{
+		userInfoUseCase: userInfoUseCase,
+	}
+}
 
 func (uc UserController) GET(c *gin.Context) {
 	session := sessions.Default(c)
@@ -18,7 +26,7 @@ func (uc UserController) GET(c *gin.Context) {
 	if id == nil {
 		c.IndentedJSON(http.StatusBadRequest, errors.New("ログインしてください"))
 	}
-	model, err := usecase.GetUserInfoUseCase(id.(int))
+	model, err := uc.userInfoUseCase.GetUserInfoUseCase(id.(int))
 	if err != nil {
 		c.IndentedJSON(http.StatusBadRequest, err)
 	}
