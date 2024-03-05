@@ -2,7 +2,6 @@ package repository
 
 import (
 	"errors"
-
 	"github.com/oyuno-hito/gin-helloworld/src/repository/dto"
 	"gorm.io/gorm"
 )
@@ -26,6 +25,7 @@ type UserRole struct {
 	RoleName string
 }
 
+// FindById TODO: テスト実施結果から一致するIdがない場合に初期値オブジェクトが返ってきているので修正する
 func (u *UserRepositoryImpl) FindById(id int) (*UserRole, error) {
 	var userRole UserRole
 	fields := "users.name AS user_name, roles.name as role_name"

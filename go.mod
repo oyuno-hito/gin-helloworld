@@ -3,6 +3,7 @@ module github.com/oyuno-hito/gin-helloworld
 go 1.21.1
 
 require (
+	github.com/DATA-DOG/go-sqlmock v1.5.2
 	github.com/gin-contrib/sessions v0.0.5
 	github.com/gin-gonic/gin v1.9.1
 	github.com/golang/mock v1.6.0
