@@ -7,17 +7,17 @@ type UserInfoService interface {
 }
 
 type UserInfoServiceImpl struct {
-	userRepository repository.UserRepository
+	UserRepository repository.UserRepository
 }
 
 func NewUserInfoService(userRepository repository.UserRepository) UserInfoService {
 	return &UserInfoServiceImpl{
-		userRepository: userRepository,
+		UserRepository: userRepository,
 	}
 }
 
 func (userInfoService *UserInfoServiceImpl) GetAndValidate(id int) (*repository.UserRole, error) {
-	userRole, repositoryErr := userInfoService.userRepository.FindById(id)
+	userRole, repositoryErr := userInfoService.UserRepository.FindById(id)
 	// TODO: 現状repositoryErrが返ってくるわけではなくormのエラーが吐かれてそこで処理が落ちているため修正する
 	if repositoryErr != nil {
 		return nil, repositoryErr

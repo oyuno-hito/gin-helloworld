@@ -5,6 +5,7 @@ import (
 	"github.com/golang/mock/gomock"
 	mocks "github.com/oyuno-hito/gin-helloworld/mocks/repository"
 	"github.com/oyuno-hito/gin-helloworld/src/repository"
+	"github.com/oyuno-hito/gin-helloworld/src/service"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -29,8 +30,8 @@ func TestUserInfoService_GetAndValidate(t *testing.T) {
 				&dummyUserRole, nil,
 			)
 
-			userInfoService := UserInfoServiceImpl{
-				userRepository: mockUserRepository,
+			userInfoService := service.UserInfoServiceImpl{
+				UserRepository: mockUserRepository,
 			}
 
 			expectedValue := &repository.UserRole{
@@ -60,8 +61,8 @@ func TestUserInfoService_GetAndValidate(t *testing.T) {
 				&dummyUserRole, dummyError,
 			)
 
-			userInfoService := UserInfoServiceImpl{
-				userRepository: mockUserRepository,
+			userInfoService := service.UserInfoServiceImpl{
+				UserRepository: mockUserRepository,
 			}
 
 			// act
