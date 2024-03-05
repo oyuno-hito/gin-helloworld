@@ -35,3 +35,11 @@ services:
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
     ports:
       - 3306:3306
+
+  go:
+    container_name: go
+    build:
+      context: .
+    volumes:
+      - ./src:/go/src/
+      - ./build:/go/build/
