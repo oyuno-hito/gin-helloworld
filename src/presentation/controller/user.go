@@ -4,7 +4,6 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/oyuno-hito/gin-helloworld/src/openapi"
 	"github.com/oyuno-hito/gin-helloworld/src/usecase"
@@ -21,10 +20,10 @@ func NewUserController(userInfoUseCase usecase.UserInfoUseCase) UserController {
 }
 
 func (uc UserController) GET(c *gin.Context) {
-	session := sessions.Default(c)
-	id := session.Get("id")
-	if id == nil {
+	id, exists := c.Get("session")
+	if !exists {
 		c.IndentedJSON(http.StatusBadRequest, errors.New("ログインしてください"))
+		return
 	}
 	model, err := uc.userInfoUseCase.GetUserInfoUseCase(id.(int))
 	if err != nil {
