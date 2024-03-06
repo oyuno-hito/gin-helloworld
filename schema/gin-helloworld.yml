@@ -27,7 +27,7 @@ paths:
           description: OK
   /user_info:
     get:
-      tags: ['users']
+      tags: ['users', 'developer', 'admin', 'user']
       description: セッション上のユーザー情報取得API
       responses:
         '200':
